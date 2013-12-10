@@ -181,6 +181,8 @@ get '/try' do
       @lf = Vacature.all(:locatie => reeks[:u], :functie.like => ("%" + reeks[:b] + "%"))
     end
 
+    #online_db
+
     
     if reeks[:b] == ''
       @uf = Vacature.all(:uren => reeks[:a], :functie => reeks[:b])
