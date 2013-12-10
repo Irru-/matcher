@@ -20,17 +20,18 @@ class Vacature
   
   include DataMapper::Resource
 
-  property :id,       Serial
-  property :functie,  String
-  property :uren,     Integer
-  property :locatie,  String
+  #property :id,       Serial
+  #property :functie,  String
+  #property :uren,     Integer
+  #property :locatie,  String
 
 
 end
 
 configure :development do
 
-  DataMapper.setup( :default, "sqlite3://#{ Dir.pwd }/database.sqlite3")
+  #DataMapper.setup( :default, "sqlite3://#{ Dir.pwd }/database.sqlite3")
+  DataMapper.setup( :default, 'mysql://jobhearted:RAM2675132@mysql.insidion.com/jobhearted')
 
 end
 
@@ -152,6 +153,8 @@ end
 
 get '/try' do
 
+  #online_db
+
   reeks = params
   @summary = params
 
@@ -181,9 +184,6 @@ get '/try' do
       @lf = Vacature.all(:locatie => reeks[:u], :functie.like => ("%" + reeks[:b] + "%"))
     end
 
-    #online_db
-
-    
     if reeks[:b] == ''
       @uf = Vacature.all(:uren => reeks[:a], :functie => reeks[:b])
     else
