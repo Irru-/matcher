@@ -4,6 +4,7 @@
 
 $LOAD_PATH.unshift File.dirname(__FILE__)
 
+require 'geocoder'
 require 'sinatra'
 require 'sinatra/reloader'
 require 'nokogiri'
