@@ -17,6 +17,10 @@ require 'dm-constraints'
 # RELOAD
 also_reload "#{ settings.root }/applicatie.rb"
 
+# CONFIGURE geocoder
+Geocoder.configure(:units => :km)
+include Geocoder::Calculations
+
 class Vacature
   
   include DataMapper::Resource
@@ -25,7 +29,30 @@ class Vacature
   property :functie,  String
   property :uren,     Integer
   property :locatie,  String
-
+	
+	def self.match( p )
+	
+		if p[:locatie] == ''
+      res = all(:locatie => p[:locatie], :uren => p[:uren], :functie => p[:functie])
+    else
+      res = all(:locatie => p[:locatie], :uren => p[:uren], :functie.like => ("%" + p[:functie] + "%"))  
+    end
+		
+		if res.empty?
+			res = all(:functie.like => ("%" + p[:functie] + "%"), :uren => p[:uren])
+		else
+		end
+		
+		res.delete_if{ |x| 
+		
+			d = distance_between(p[:locatie], x.locatie)
+			d2 = d.round(1)
+			
+			d2 > p[:afstand].to_i
+		
+		}	
+		
+	end
 
 end
 
@@ -112,8 +139,8 @@ get '/argumenten' do
 end
 
 get '/form' do
-
-  erb :form
+	@vacature = Vacature.new
+	erb :form
 end
 
 post '/verwerk' do
@@ -146,50 +173,41 @@ end
 
 post '/match' do
 
-  redirect "/try?u=#{params[:locatie]};a=#{params[:uren]};b=#{params[:functie]};c=3"
+  #redirect "/try?u=#{params[:locatie]};a=#{params[:uren]};b=#{params[:functie]};c=3;d=#{params[:afstand]}"
+	
+	#@vac = Vacature.new( params[:vacature] )
+	#@vac = params
+	#rofl = params
+	#@vac
+	
+	#erb:trial
+	
+	#redirect 
+	
+	@p = params[:match]
+	@res = Vacature.match(@p)
+	erb :try
+
+end
+
+get '/trial' do
+
+	erb :trial
 
 end
 
 
-get '/try' do
+post '/try' do
 
-  reeks = params
-  @summary = params
-
-  val = reeks[:c].to_i
-
-  if val == 0
-    @vac = Vacature.all(:uren => reeks[:u])
-  elsif val == 1
-    @vac = Vacature.all(:locatie => reeks[:u])
-  elsif val == 2
-    @vac = Vacature.all(:functie => reeks[:u])
-  elsif val == 3
-
-    
-    if reeks[:b] == ''
-      @best = Vacature.all(:locatie => reeks[:u], :uren => reeks[:a], :functie => reeks[:b])
+	@p = params
+	
+	 if @p[:locatie] == ''
+      @res = Vacature.all(:locatie => @p[:locatie], :uren => @p[:uren], :functie => @p[:functie])
     else
-      @best = Vacature.all(:locatie => reeks[:u], :uren => reeks[:a], :functie.like => ("%" + reeks[:b] + "%"))  
+      @res = Vacature.all(:locatie => @p[:locatie], :uren => @p[:uren], :functie.like => ("%" + @p[:functie] + "%"))  
     end
-    
-
-    @lu = Vacature.all(:locatie => reeks[:u], :uren => reeks[:a])
-
-    if reeks[:b] == ''
-      @lf = Vacature.all(:locatie => reeks[:u], :functie => reeks[:b])
-    else
-      @lf = Vacature.all(:locatie => reeks[:u], :functie.like => ("%" + reeks[:b] + "%"))
-    end
-
-    
-    if reeks[:b] == ''
-      @uf = Vacature.all(:uren => reeks[:a], :functie => reeks[:b])
-    else
-      @uf = Vacature.all(:uren => reeks[:a], :functie.like => ("%" + reeks[:b] + "%"))
-    end
-
-  end
+	
   erb :try
+
 
 end
