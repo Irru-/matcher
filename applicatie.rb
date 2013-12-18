@@ -56,6 +56,41 @@ class Vacature
 
 end
 
+class Location
+
+	include DataMapper::Resource
+	
+	property :id,					Serial
+	property :stad, 			String
+	property :long,			Float
+	property :lat,				Float
+	
+	def self.check( s )
+	
+		res = all(:stad => s)
+		
+		if res.empty?
+			c = Geocoder.search(s)
+			long 	= c[0].longitude
+			lat 		= c[0].latitude
+			
+			Location.create(:stad => s, :long => long, :lat => lat)
+			
+			res = all(:stad => s)
+			
+		end
+		
+		res
+	
+	end
+
+	def self.calc( s1, s2 )
+	
+		res1 = all(:stad => s1)
+		res2 = all(:stad => s2)
+		
+	end
+
 configure :development do
 
   DataMapper.setup( :default, "sqlite3://#{ Dir.pwd }/database.sqlite3")
@@ -192,6 +227,7 @@ end
 
 get '/trial' do
 
+	@res = Location.check("Rotterdam")
 	erb :trial
 
 end
