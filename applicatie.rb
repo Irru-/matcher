@@ -83,13 +83,30 @@ class Location
 		res
 	
 	end
-
-	def self.calc( s1, s2 )
 	
-		res1 = all(:stad => s1)
-		res2 = all(:stad => s2)
+		def self.calc( s1, s2 )
+	
+		res1 			= first(:stad => s1)
+		lat1 			= res1.lat
+		lon1 			= res1.long 
+		res2 			= first(:stad => s2)
+		lat2				= res2.lat
+		lon2			= res2.long
+		
+		r					= 6371
+		dLat 		= (lat2 - lat1) * Math::PI / 180
+		dLon 	= (lon2 - lon1) * Math::PI / 180
+		lat1 		= res1[:lat] * Math::PI / 180
+		lat2			= res2[:lat] * Math::PI / 180
+		
+		a 				= Math.sin(dLat/2) * Math.sin(dLat/2) + Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2)
+		c				= 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+		d				= r * c;
+		
 		
 	end
+	
+end
 
 configure :development do
 
@@ -227,11 +244,10 @@ end
 
 get '/trial' do
 
-	@res = Location.check("Rotterdam")
+	@res = Location.calc("Rotterdam", "Ridderkerk")
 	erb :trial
 
 end
-
 
 post '/try' do
 
