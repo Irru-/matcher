@@ -244,7 +244,7 @@ end
 
 get '/trial' do
 
-	@res = Location.calc("Rotterdam", "Ridderkerk")
+	@res = Vacature.all
 	erb :trial
 
 end
