@@ -20,11 +20,6 @@ class Vacature
   
   include DataMapper::Resource
 
-  #property :id,       Serial
-  #property :functie,  String
-  #property :uren,     Integer
-  #property :locatie,  String
-	
 	property :id,										Serial
 	property :url_id,								Integer
 	property :title,								String
@@ -34,13 +29,13 @@ class Vacature
 	property :omschrijving,		String
 	property :version,						Integer
 	
-	#has n,	:vacatures_educations
-	#has n, 	:vacatures_locations
-	#has n, 	:vacatures_skills
+	has n,	:vacatures_educations, :through => Resource
+	has n, 	:vacatures_locations, :through => Resource
+	has n, 	:vacatures_skills, :through => Resource
 
 	end
 
-class Vacatures_education
+class VacaturesEducation
 
 	include DataMapper::Resource
 	
@@ -50,10 +45,10 @@ class Vacatures_education
 	property :vacature_id, 		Integer
 	property :education_id, 	Integer
 	
-	#has n,	:vacatures
-	#has n, 	:educations
+	has n,	:vacature, :through => Resource
+	has n, 	:educations, :through => Resource
 	
-	end
+end
 	
 class Education
 
@@ -63,21 +58,21 @@ class Education
 	property :education,			String
 	property :level,							Integer
 	
-	#has n, 	:vacatures_educations
+	has n, 	:vacatures_educations, :through => Resource
 	
 end
 	
-class Vacatures_location
+class VacaturesLocation
 
 	include DataMapper::Resource
 	
-	#storage_names[:default] = "vacatures_locations"
+	storage_names[:default] = "vacatures_locations"
 
 	property :id,									Serial
 	property :vacature_id, 		Integer
 	property :location_id,		 	Integer
 	
-	#has n, :vacatures
+	has n, :vacatures, :through => Resource
 	
 end
 
@@ -90,21 +85,21 @@ class Location
 	property :longitude,				Float
 	property :latitude,					Float
 	
-	#has n,	:vacatures_loactions
+	has n,	:vacatures_locations, :through => Resource
 
 end
 
-class Vacatures_skill
+class VacaturesSkill
 
 	include DataMapper::Resource
 	
-	#storage_names[:default] = "vacatures_skills"
+	storage_names[:default] = "vacatures_skills"
 
 	property :id,									Serial
 	property :vacature_id, 		Integer
 	property :skill_id,					 	Integer
 	
-	#has n, :skills
+	has n, :skills, :through => Resource
 	
 end
 
@@ -115,7 +110,7 @@ class Skill
 	property :id,								Serial
 	property :skill,						String
 
-	#has n, 	:vacatures_skills
+	has n, 	:vacatures_skills, :through => Resource
 end
 
 configure :development do
@@ -244,7 +239,8 @@ end
 
 get '/try' do
 
-	@q = Vacature.new
+	@q = Vacature.all
+	
   erb :try
 
 end
