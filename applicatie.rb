@@ -114,7 +114,7 @@ configure :development do
 
 end
 
-
+DataMapper.auto_migrate!
 DataMapper.auto_upgrade!
 
 
@@ -244,7 +244,7 @@ end
 
 get '/trial' do
 
-	@res = Vacature.all
+	@res = Location.calc("Rotterdam", "Ridderkerk")
 	erb :trial
 
 end
