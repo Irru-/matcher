@@ -34,24 +34,24 @@ class Vacature
 	property :omschrijving,		String
 	property :version,						Integer
 	
-	has n,	:vacatures_educations
-	has n, 	:vactures_locations
-	has n, 	:vactures_skills
+	#has n,	:vacatures_educations
+	#has n, 	:vacatures_locations
+	#has n, 	:vacatures_skills
 
 	end
 
-class VacturesEducation
+class Vacatures_education
 
 	include DataMapper::Resource
 	
-	storage_names[:default] = "vactures_educations"
+	storage_names[:default] = "vacatures_educations"
 	
 	property :id,									Serial
 	property :vacature_id, 		Integer
 	property :education_id, 	Integer
 	
-	has n,	:vacatures
-	has n, 	:educations
+	#has n,	:vacatures
+	#has n, 	:educations
 	
 	end
 	
@@ -63,11 +63,11 @@ class Education
 	property :education,			String
 	property :level,							Integer
 	
-	has n, 	:vactures_educations
+	#has n, 	:vacatures_educations
 	
 end
 	
-class Vactures_location
+class Vacatures_location
 
 	include DataMapper::Resource
 	
@@ -77,7 +77,7 @@ class Vactures_location
 	property :vacature_id, 		Integer
 	property :location_id,		 	Integer
 	
-	has n, :vacatures
+	#has n, :vacatures
 	
 end
 
@@ -90,7 +90,7 @@ class Location
 	property :longitude,				Float
 	property :latitude,					Float
 	
-	has n,	:vactures_loactions
+	#has n,	:vacatures_loactions
 
 end
 
@@ -104,7 +104,7 @@ class Vacatures_skill
 	property :vacature_id, 		Integer
 	property :skill_id,					 	Integer
 	
-	has n, :skills
+	#has n, :skills
 	
 end
 
@@ -115,7 +115,7 @@ class Skill
 	property :id,								Serial
 	property :skill,						String
 
-	has n, 	:vacatures_skills
+	#has n, 	:vacatures_skills
 end
 
 configure :development do
@@ -125,7 +125,9 @@ configure :development do
 
 end
 
-#DataMapper.auto_upgrade!
+DataMapper.finalize
+
+DataMapper.auto_upgrade!
 
 
 get '/' do
@@ -243,7 +245,6 @@ end
 get '/try' do
 
 	@q = Vacature.new
-
   erb :try
 
 end
