@@ -24,8 +24,98 @@ class Vacature
   #property :functie,  String
   #property :uren,     Integer
   #property :locatie,  String
+	
+	property :id,										Serial
+	property :url_id,								Integer
+	property :title,								String
+	property :bedrijf,							String
+	property :dienstverband,	String
+	property :plaats,							String
+	property :omschrijving,		String
+	property :version,						Integer
+	
+	has n,	:vacatures_educations
+	has n, 	:vactures_locations
+	has n, 	:vactures_skills
 
+	end
 
+class VacturesEducation
+
+	include DataMapper::Resource
+	
+	storage_names[:default] = "vactures_educations"
+	
+	property :id,									Serial
+	property :vacature_id, 		Integer
+	property :education_id, 	Integer
+	
+	has n,	:vacatures
+	has n, 	:educations
+	
+	end
+	
+class Education
+
+	include DataMapper::Resource
+	
+	property :id,									Serial
+	property :education,			String
+	property :level,							Integer
+	
+	has n, 	:vactures_educations
+	
+end
+	
+class Vactures_location
+
+	include DataMapper::Resource
+	
+	#storage_names[:default] = "vacatures_locations"
+
+	property :id,									Serial
+	property :vacature_id, 		Integer
+	property :location_id,		 	Integer
+	
+	has n, :vacatures
+	
+end
+
+class Location
+
+	include DataMapper::Resource
+	
+	property :id,									Serial
+	property :name,						String
+	property :longitude,				Float
+	property :latitude,					Float
+	
+	has n,	:vactures_loactions
+
+end
+
+class Vacatures_skill
+
+	include DataMapper::Resource
+	
+	#storage_names[:default] = "vacatures_skills"
+
+	property :id,									Serial
+	property :vacature_id, 		Integer
+	property :skill_id,					 	Integer
+	
+	has n, :skills
+	
+end
+
+class Skill
+	
+	include DataMapper::Resource
+	
+	property :id,								Serial
+	property :skill,						String
+
+	has n, 	:vacatures_skills
 end
 
 configure :development do
@@ -35,8 +125,7 @@ configure :development do
 
 end
 
-
-DataMapper.auto_upgrade!
+#DataMapper.auto_upgrade!
 
 
 get '/' do
@@ -153,44 +242,8 @@ end
 
 get '/try' do
 
-  #online_db
+	@q = Vacature.new
 
-  reeks = params
-  @summary = params
-
-  val = reeks[:c].to_i
-
-  if val == 0
-    @vac = Vacature.all(:uren => reeks[:u])
-  elsif val == 1
-    @vac = Vacature.all(:locatie => reeks[:u])
-  elsif val == 2
-    @vac = Vacature.all(:functie => reeks[:u])
-  elsif val == 3
-
-    
-    if reeks[:b] == ''
-      @best = Vacature.all(:locatie => reeks[:u], :uren => reeks[:a], :functie => reeks[:b])
-    else
-      @best = Vacature.all(:locatie => reeks[:u], :uren => reeks[:a], :functie.like => ("%" + reeks[:b] + "%"))  
-    end
-    
-
-    @lu = Vacature.all(:locatie => reeks[:u], :uren => reeks[:a])
-
-    if reeks[:b] == ''
-      @lf = Vacature.all(:locatie => reeks[:u], :functie => reeks[:b])
-    else
-      @lf = Vacature.all(:locatie => reeks[:u], :functie.like => ("%" + reeks[:b] + "%"))
-    end
-
-    if reeks[:b] == ''
-      @uf = Vacature.all(:uren => reeks[:a], :functie => reeks[:b])
-    else
-      @uf = Vacature.all(:uren => reeks[:a], :functie.like => ("%" + reeks[:b] + "%"))
-    end
-
-  end
   erb :try
 
 end
