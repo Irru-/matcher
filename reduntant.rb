@@ -66,10 +66,7 @@ get '/argumenten' do
 
 end
 
-get '/form' do
 
-  erb :form
-end
 
 post '/verwerk' do
 

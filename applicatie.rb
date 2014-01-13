@@ -40,6 +40,35 @@ class Vacature
 	
 	has n, :vacatures_skills
 	has n, :skills, :through => :vacatures_skills
+	
+	has 1, :url
+end
+
+class Url
+
+	include DataMapper::Resource
+	
+	storage_names[:default] = "urls"
+	
+	property :id,										Serial
+	property :link,									String
+
+	belongs_to :vacature
+	
+	def self.getLink(x)
+	
+		res = Array.new
+		
+		x.each do |z|
+		
+			t = first(:id => z.vacature.url_id)
+			res << t.link
+		
+		end
+		
+		res
+	
+	end
 end
 
 class VacaturesEducation
@@ -95,7 +124,7 @@ class Location
 	property :latitude,					Float
 
 	def self.calc(s1,s2)
-
+	
 		res1		= self.check(s1)
 		res2		= self.check(s2)	
 
@@ -103,18 +132,24 @@ class Location
         lat1        = res1.latitude
         lon1        = res1.longitude
         
-        lat2        = res2.latitude
+        if !res2.nil?
+				lat2        = res2.latitude
         lon2        = res2.longitude
+				else
+				lat2				= 36
+				lon2			= 138
+				end
                
         r           = 6371
         dLat        = (lat2 - lat1) * Math::PI / 180
         dLon        = (lon2 - lon1) * Math::PI / 180
-        lat1        = res1[:latitude] * Math::PI / 180
-        lat2        = res2[:latitude] * Math::PI / 180
+        lat1        = lat1 * Math::PI / 180
+        lat2        = lat2 * Math::PI / 180
                 
         a           = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2)
         c           = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
         d           = r * c
+				
 	end
 
 	def self.check(s1)
@@ -123,7 +158,7 @@ class Location
 
 		if res.nil?
 
-			c 		= Geocoder.search(s1)
+			c 	= Geocoder.search(s1)	
 			long 	= c[0].longitude
 			lat 	= c[0].latitude
 			Location.create(:name => s1, :longitude => long, :latitude => lat) 
@@ -178,7 +213,6 @@ class VacaturesSkill
 	
 end
 
-	
 class Skill
 	include DataMapper::Resource
 	
@@ -198,6 +232,49 @@ class Skill
 	
 end
 
+class Match
+
+	def self.getVac(sk)
+	
+		s = "%" + sk + "%"
+	
+		res = VacaturesSkill.all(:skill =>
+		[
+			{
+				:skill.like => s
+			}
+		], :limit => 100
+		)
+		
+		res
+	
+	end
+	
+	def self.matchLoc(x,city,i)
+	
+	res = Hash.new
+	
+		x.each do |z|
+			
+				
+				t = z.vacature.plaats
+				res2 = Hash.new
+				res2 = { z => Location.grade(city,t,i) }
+				res.merge!(res2)
+				
+			
+		end
+		
+	res	
+	
+	end
+	
+	def self.matchEdu
+	
+	end
+
+end
+
 configure :development do
 
   #DataMapper.setup( :default, "sqlite3://#{ Dir.pwd }/database.sqlite3")
@@ -214,6 +291,31 @@ get '/' do
   erb :index
 end
 
+post '/match' do
+	
+	@p = params[:match]
+	l1 = @p["l1"]
+	l2 = @p["l2"]
+	sk = @p["sk"]
+	di = @p["di"].to_i
+	
+	#@res = Location.grade(l1,l2,di)
+	#@res = Match.match(l1, di)
+
+	b = Match.getVac(sk)
+	@b = Match.matchLoc(b,l1,di)
+	@c = Url.getLink(b)
+
+	
+	
+	erb :matcher
+
+end
+
+get '/form' do
+  erb :form
+end
+
 get '/try' do
 
 	@s1 = "Rotterdam"
@@ -224,29 +326,6 @@ get '/try' do
 	@res 	= Location.grade(@s1, @s2, @i)
 	@res2 	= Location.calc(@s1, @s2)
 	@res3 	= Skill.calc(@s3) 
-
-
-	test = VacaturesEducation.all(:vacature => 
-	[
-		{
-			:bedrijf => "Adecco"
-		}
-	]
-	)
-	
-	a = VacaturesEducation.all(:education_id => 2)
-	@z = a.all(:vacature =>
-	[	
-		{
-			:vacatures_locations =>
-				[
-					{
-						:location_id => 27
-					}
-				]	
-		}
-	]
-)	
 
   erb :try
 
