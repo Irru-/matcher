@@ -1,11 +1,15 @@
-<form method='POST'>
-
-	Functie<input type='text' name='functie'>	<br />
-	Uren   <input type='text' name='uren'>		<br />
-	Locatie<input type='text' name='locatie'>	<br />
-	<input type='submit' formaction='/verwerk' 	value='Zoek op uren'>
-	<input type='submit' formaction='/locatie' 	value='Zoek op locatie'>
-	<input type='submit' formaction='/functie'	value='Zoek op functie'>
-	<input type='submit' formaction='/match'	value='Match me!'>
+<form method='POST' action = '/match'>
+	Locatie<input type='text' name='match[l1']>	<br />
+	Skill<input type='text' name='match[sk']>	<br />
+	Maximale afstand<input type='range' min='0' max='100' value='40' onchange="showValue(this.value)" name='match[di]'>
+	<span id='range' >20</span><br />
+	
+	<script type='text/javascript'>
+	function showValue(nv)
+	{
+		document.getElementById("range").innerHTML=nv;
+	}
+	</script>	
+	<input type='submit' value='Match me!'>
 
 </form>
