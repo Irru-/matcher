@@ -52,20 +52,37 @@
 <div class="form_div_50">
 
 	<form method="post" enctype='multipart/form-data')>
-		<input type='file' name='myfile'> <br />
-		Maximale afstand <input type='text' id='afstand' onkeypress="return isNumberKeyLoc(event)" name='match[di]'> <br/>
-		Dienstverband
-		<select name = 'match[dvb]'>
-			<option value="full">Full time</option>
-			<option value="part">Part time</option>
-			<option value="detachering">Detachering/Interim</option>
-			<option value="stage">Stage</option>
-			<option value="bijbaan">Bijbaan</option>
-			<option value="freelance">Freelance</option>
-		</select> <br />
-		Locatiescore<input type='text' id='locatie' onkeypress="return isNumberKey(event)" name='match[lo]'> <br />
-		Skillscore<input type='text' id='skill' onkeypress="return isNumberKey(event)" name='match[sk]'> <br />
-		Educationscore<input type='text' id='edu' onkeypress="return isNumberKey(event)" name='match[ed]'> <br />
-		<input type='submit' value='Upload!' onclick="return notEmpty('afstand','locatie','skill','edu','Vul alle velden in aub.')" />
+		<div><input type='file' name='myfile'></div>
+		<div>
+			<label for="afstand">Maximale afstand: </label>
+			<input type='text' id='afstand' onkeypress="return isNumberKeyLoc(event)" name='match[di]'>
+		</div>
+		<div>
+			<label for="dbv">Gewenst dienstverband:</label>
+			<select id="dbv" name = 'match[dvb]'>
+				<option value="full">Full time</option>
+				<option value="part">Part time</option>
+				<option value="detachering">Detachering/Interim</option>
+				<option value="stage">Stage</option>
+				<option value="bijbaan">Bijbaan</option>
+				<option value="freelance">Freelance</option>
+			</select> 
+		</div>
+		<div>
+			<label for="locatie">Weging Locatie:</label>
+			<input type='text' id='locatie' onkeypress="return isNumberKey(event)" name='match[lo]'>
+		</div>
+		<div>
+			<label for="skill">Weging skills: </label>
+			<input type='text' id='skill' onkeypress="return isNumberKey(event)" name='match[sk]'>
+		</div>
+		<div>
+			<label for="edu">Weging Educatie:</label>
+			<input type='text' id='edu' onkeypress="return isNumberKey(event)" name='match[ed]'>
+
+		</div>
+		<div>
+			<input type='submit' value='Upload!' onclick="return notEmpty('afstand','locatie','skill','edu','Vul alle velden in aub.')" />
+		</div>
 	</form>
 </div>

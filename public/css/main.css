@@ -42,7 +42,7 @@ table {
 	width: 800px;
 }
 
-table>thead {
+table thead {
 	background-color: black;
 	color: white;
 }
@@ -51,13 +51,18 @@ table>thead {
 	border: 2px solid black;
 	width: 440px;
 	padding: 25px;
-	height: 300px;
+	height: 320px;
 	display: inline-block;
 	margin-top: 30px;
 	overflow: hidden;
 	text-align: left;
 }
 
-.form_div_50>label {
-	width: 150px;
+input, select{ 
+	float:right;
+	width: 170px;
+}
+
+.form_div_50 div {
+	height: 35px;
 }
