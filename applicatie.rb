@@ -635,7 +635,7 @@ post "/upload" do
 	
 	skills 				= CV.getSkills(text)
 	count				= skills.count
-	skills					= Skill.getID(skills)		
+	skills					= Skill.getID(skills)
 
 	
 	edu 					= CV.getEducation(text)
