@@ -2,6 +2,11 @@ body {
 	background-color: rgba(0, 0, 0, 0.6);	
 }
 
+#logo a {
+	text-decoration: none;
+	color: black;
+}
+
 #container {
 	width:1000px;
 	margin: 0 auto;
@@ -53,9 +58,9 @@ table thead {
 
 .form_div_50 {
 	border: 2px solid black;
-	width: 440px;
+	width: 476px;
 	padding: 25px;
-	height: 320px;
+	height: 420px;
 	display: inline-block;
 	margin-top: 30px;
 	overflow: hidden;
@@ -64,11 +69,11 @@ table thead {
 
 input, select{ 
 	float:right;
-	width: 170px;
+	width: 200px;
 }
 
 .form_div_50 div {
-	height: 35px;
+	height: 50px;
 }
 
 #footer {
