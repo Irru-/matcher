@@ -677,30 +677,25 @@ post "/upload" do
 	sw = p["sk"].to_i
 	ew = p["ed"].to_i
 	
-	@plaats = CV.getCity(text)
-	plaats = @plaats
-	@tplaats = plaats
+	plaats = CV.getCity(text)
 	
-	@skills = CV.getSkills(text)
-	@count = @skills.count	
-	@skills = Skill.getID(@skills)	
+	skills = CV.getSkills(text)
+	count = skills.count	
+
 	
-	@edu = CV.getEducation(text)
-	edu = Education.first(:education => @edu[0])
+	edu = CV.getEducation(text)
+	edu = Education.first(:education => edu[0])
 	edu = edu.level
 	
-	vacatures = Match.getVacatures(@skills, dvb)
-	@vacatures = vacatures
+	vacatures = Match.getVacatures(skills, dvb)
 
 	locationScore = Match.matchLoc(vacatures, plaats, distance)
-	@ls = locationScore
 
 	eduScore = Education.calc(vacatures, edu)
-	@es = eduScore
 	
-	@skillScore = Skill.getCount(@skills, @count)
+	skillScore = Skill.getCount(skills, count)
 	
-	score = Match.scoreCV(vacatures, locationScore, lw, eduScore, ew, @skillScore, sw) 
+	score = Match.scoreCV(vacatures, locationScore, lw, eduScore, ew, skillScore, sw) 
 	@score = score.sort_by{|k,v| v[3]}.reverse	
 	
 	@link = Url.getLink(@score)	
@@ -736,7 +731,7 @@ post "/uploadform" do
 	score = Match.scoreForm(vacatures, locationScore, lo, eduScore, ed)
 	@score = score.sort_by{|k,v| v[2]}.reverse	
 	
-	@link = Url.getLink(vacatures)
+	@link = Url.getLink(@score)
 
 	erb :matcher_form
 
