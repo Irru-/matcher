@@ -15,10 +15,11 @@ body {
 
 #header {
 	height: 140px;
-	width: 930px;
+	width: 1000px;
 	padding: 30px;
 	background-color: white;
 	border-radius:20px;
+	margin: 0 auto;
 }
 
 #logo {
@@ -68,4 +69,13 @@ input, select{
 
 .form_div_50 div {
 	height: 35px;
+}
+
+#footer {
+	width: 1000px;
+	border-radius: 20px;
+	height: 50px;
+	text-align: center;
+	margin: 0 auto;
+	margin-top: 10px;
 }
