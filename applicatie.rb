@@ -176,7 +176,19 @@ class Education
 
 	def self.getGrade(level, edu)
 
-		edu * 100 / level
+		if edu >= level
+			return 100
+		end	
+		
+		if level != 0
+			
+			return (edu * 100 / level)
+		
+		else
+			
+			return 80			
+			
+		end
 
 	end
 	
@@ -442,7 +454,7 @@ class Match
 			sScore = skillScore[i]*sw
 			
 			score = ((lScore + eScore + sScore)/total)
-			scoreArray = [lScore/total, eScore/total, sScore/total, score]
+			scoreArray = [locationScore[i], eduScore[i], skillScore[i], score]
 			
 			result.merge!(vac => scoreArray)
 		
@@ -720,8 +732,6 @@ post "/uploadform" do
 	locationScore = Match.matchLoc(vacatures, l1, di)
 
 	eduScore = Education.calc(vacatures, edu)
-	
-	#skillScore = Skill.getCount(sk
 
 	score = Match.scoreForm(vacatures, locationScore, lo, eduScore, ed)
 	@score = score.sort_by{|k,v| v[2]}.reverse	
