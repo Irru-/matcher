@@ -1,4 +1,3 @@
-
 <div id="results_page">
 
 	<% if @score.empty? %>
@@ -9,30 +8,30 @@
 		<table id="result_table" class="table">	
 
 			<thead>
-						<tr>
-							<td><b>Titel</b></td>
-							<td><b>Plaats</b></td>
-							<td><b>Dienstverband</b></td>
-							<td><b>Locatiescore</b></td>
-							<td><b>Educatiescore</b></td>
-							<td><b>Totale Score</b></td>
-						</tr>
+				<tr>
+					<td><b>Titel</b></td>
+					<td><b>Plaats</b></td>
+					<td><b>Dienstverband</b></td>
+					<td><b>Locatiescore</b></td>
+					<td><b>Educatiescore</b></td>
+					<td><b>Totale Score</b></td>
+				</tr>
 			</thead>
 			<tbody>
 
 
-			<% @score.each_with_index do |(k, v), i| %>
-			
-			<tr>
-				<td><a href = <%=@link[i]%> ><%= k.title[0..30] + "..." %> </a></td>
-				<td><%= k.plaats.capitalize %></td>
-				<td><%= k.dienstverband %></td>
-				<td><%= v[0].round(2) %></td>
-				<td><%= v[1].round(2) %></td>
-				<td><b><%= v[2].round(2) %></b></td>
-			</tr>
-			
-			<%end%>
+				<% @score.each_with_index do |(k, v), i| %>
+				
+				<tr>
+					<td><a href = <%=@link[i]%> ><%= k.title[0..30] + "..." %> </a></td>
+					<td><%= k.plaats.capitalize %></td>
+					<td><%= k.dienstverband %></td>
+					<td><%= v[0].round(2) %></td>
+					<td><%= v[1].round(2) %></td>
+					<td><b><%= v[2].round(2) %></b></td>
+				</tr>
+				
+				<%end%>
 			</tbody>
 		</table>
 	<%end%>
