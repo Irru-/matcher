@@ -3,25 +3,33 @@ body {
 }
 
 #container {
-	width:1200px;
+	width:1000px;
 	margin: 0 auto;
 	display: block;
 	overflow: hidden;
 	margin-top: 20px;
+	background-color: white;
+	border-radius: 20px;
+	padding: 20px;
 }
 
 #header {
 	height: 140px;
-	width: 930px;
+	width: 1000px;
 	padding: 30px;
-	background-color: rgba(0, 0, 255, 0.6);
-	border:2px solid;
+	background-color: white;
 	border-radius:20px;
+	margin: 0 auto;
 }
 
 #logo {
 	font-size: 40px;
 	font-family: Arial black;
+}
+
+#slogan {
+	font-size: 20px;
+	font-family: sans-serif;
 }
 
 #results_page {
@@ -38,7 +46,36 @@ table {
 	width: 800px;
 }
 
-table>thead {
+table thead {
 	background-color: black;
 	color: white;
+}
+
+.form_div_50 {
+	border: 2px solid black;
+	width: 440px;
+	padding: 25px;
+	height: 320px;
+	display: inline-block;
+	margin-top: 30px;
+	overflow: hidden;
+	text-align: left;
+}
+
+input, select{ 
+	float:right;
+	width: 170px;
+}
+
+.form_div_50 div {
+	height: 35px;
+}
+
+#footer {
+	width: 1000px;
+	border-radius: 20px;
+	height: 50px;
+	text-align: center;
+	margin: 0 auto;
+	margin-top: 10px;
 }
