@@ -155,7 +155,6 @@ class Education
 				res << getGrade(level, edu)
 
 			else
-			#Als level een array is, voeg dan de hoogste waarde toe aan result.
 				temp = Array.new
 
 				level.each do |lvl|
@@ -175,6 +174,7 @@ class Education
 	end
 
 	def self.getGrade(level, edu)
+	#Educatie score berekenen
 
 		if edu >= level && level != 0
 			return 100
@@ -221,12 +221,14 @@ class Distance
 	property	:stad2,			String
 	property	:distance,	Float
 	
+	#Afstand tussen twee steden berkenen
 	def self.getDistance(locatie1, locatie2)
 	
+		#Zoeken of de steden in database staan
 		result = first(:stad1 => locatie1, :stad2 => locatie2)
 			
 		if result.nil?
-			
+			#Zoniet, bereken dan afstand en sla op in DB
 			afstand = Location.calc(locatie1, locatie2)
 			create(:stad1 => locatie1, :stad2 => locatie2, :distance => afstand)
 			result = afstand
@@ -254,45 +256,47 @@ class Location
 	property :latitude,					Float
 
 	def self.calc(locatie1,locatie2)	
-
+	#Afstand berekenen tussen twee locaties
 		
-	res1 = first(:name => locatie1)
+	res1 	= first(:name => locatie1)
 	res2 = first(:name => locatie2)
 				
 	lat1 = res1.latitude
 	lon1 = res1.longitude
         
-    if !res2.nil?
-		lat2        = res2.latitude
-        lon2        = res2.longitude
+  if !res2.nil?
+		lat2        	= res2.latitude
+    lon2        = res2.longitude
 	else
-		lat2		= 36
-		lon2		= 138
+		lat2					= 36
+		lon2				= 138
 	end
-               
-    r           = 6371
-    dLat        = (lat2 - lat1) * Math::PI / 180
-    dLon        = (lon2 - lon1) * Math::PI / 180
-    lat1        = lat1 * Math::PI / 180
-    lat2        = lat2 * Math::PI / 180
-              
-    a           = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2)
-    c           = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
-    d           = r * c
-				
+
+    r           	= 6371
+    dLat      	= (lat2 - lat1) * Math::PI / 180
+    dLon       = (lon2 - lon1) * Math::PI / 180
+    lat1        	= lat1 * Math::PI / 180
+    lat2        	= lat2 * Math::PI / 180
+   
+    a           	= Math.sin(dLat/2) * Math.sin(dLat/2) + Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2)
+    c           	= 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+    d           	= r * c
+
 	end
 
 	def self.grade(locatie1, locatie2, distance)
+	#Locatiescore berekenen
 
-		res 	= 0
-		d 		= Distance.getDistance(locatie1,locatie2)
+		res 		= 0
+		d 				= Distance.getDistance(locatie1,locatie2)
 		if d == 0.0
 			return 100
 		end
-		d 		= d.to_i
-		step 	= distance*0.1
-		dif 	= d - distance
-		dif2	= (dif / step) * 5
+		
+		d 				= d.to_i
+		step 		= distance*0.1
+		dif 			= d - distance
+		dif2			= (dif / step) * 5
 
 		if d < distance
 			res = 100
@@ -340,7 +344,8 @@ class Skill
 	has n, :vacatures, :through => :vacatures_skills
 
 	def self.getID(array)
-
+	#Zoek alle vacature_IDs op van de vacatures waarvan de skills het best overeenkomen 
+	#met de skills die in het CV staan.
 		result = Array.new
 
 		array.each do |item|
@@ -359,7 +364,7 @@ class Skill
 				query = query + "skill_id=" + number.to_s + " OR "
 
 		end
-
+		
 		query = query[0..-5] + " GROUP BY vacature_id ORDER BY count DESC LIMIT 100"
 
 		res = repository(:default).adapter.select(query)
@@ -367,12 +372,12 @@ class Skill
 	end
 	
 	def self.getCount(array, total)
-	
+	#Skill score berekenen. Aantal gematchte skills tov totale skills in CV
 		result = Array.new
 		
 		array.each do |item|
 			
-			result << ((item.count * 100) / total )
+			result << ((item.count * 100) / total ) 
 		
 		end
 
@@ -384,6 +389,7 @@ end
 class Match
 
 	def self.getVac(sk, dvb)
+	#Alle vacatures zoeken met de skill 'sk' en dienstverband 'dvb'
 	
 		skill = "%" + sk + "%"
 		dienst = "%" + dvb + "%"
@@ -408,7 +414,7 @@ class Match
 	end
 	
 	def self.getVacatures(array, dvb)
-	
+		#Zoek de vacatures als ze het juiste dvb hebben
 		result = Array.new
 		
 		array.each do |item|
@@ -425,7 +431,7 @@ class Match
 	end
 	
 	def self.matchLoc(vacatures,locatie,distance)
-	
+	#Locatiescore berekenen
 	result = Array.new
 
 		vacatures.each do |vacature|				
@@ -441,7 +447,7 @@ class Match
 	end
 
 	def self.scoreCV(vacatures,locationScore,lw,eduScore,ew,skillScore,sw)
-	
+	#CV totaalscore berekenen
 		result = Hash.new
 		scoreArray = Array.new
 		total = lw+ew+sw
@@ -465,7 +471,7 @@ class Match
 	end
 	
 	def self.scoreForm(vacatures,locationScore,lw,eduScore,ew)
-	
+	#Formulier totaalscore berekenen
 		result = Hash.new
 		scoreArray = Array.new
 		total = lw+ew
@@ -491,7 +497,7 @@ end
 class CV
 
 	def self.getText(filename)
-		
+		#Lees de pdf een zet alles om naar een string
 		text = ""
 	
 		PDF::Reader.open(filename) do |reader|
@@ -505,7 +511,7 @@ class CV
 	end
 	
 	def self.getCity(text)
-	
+		#Haal de eerste stad uit het CV => Altijd de woonplaats mits het CV op juiste manier is opgesteld
 		plaatsen = Location.all()
 		result = Array.new
 		text = text.downcase
@@ -534,7 +540,7 @@ class CV
 	end
 	
 	def self.getSkills(text)
-	
+		#Haa; alle skills uit de CV
 		skills = Skill.all()
 		result = Array.new
 		
@@ -558,7 +564,7 @@ class CV
 	end
 
 	def self.getEducation(text)
-		
+		#Haal alle opleidingen uit de CV
 		edus = Education.all()
 		result = Array.new
 		
@@ -598,67 +604,14 @@ get '/' do
   erb :index
 end
 
-post '/match' do
-	
-	@p = params[:match]
-	l1 = @p["l1"]
-	l2 = @p["l2"]
-	sk = @p["sk"]
-	di = @p["di"].to_i
-	edu = @p["edu"].to_i
-	dvb = @p["dvb"]
-	dvb = "%" + dvb + "%"
-
-
-	vacatures = Match.getVac(sk, dvb)
-
-	locationScore = Match.matchLoc(vacatures, l1, di)
-
-	@link = Url.getLink(vacatures)
-
-	eduScore = Education.calc(vacatures, edu)
-
-	score = Match.score(vacatures, locationScore, eduScore)
-	@score = score.sort_by{|k,v| v}.reverse	
-
-	erb :debug
-
-end
-
 get '/form' do
   erb :form
 end
 
-get '/pdf' do
-
-	filename = File.expand_path(File.dirname(__FILE__)) + '/test3.pdf'
-	
-	
-	@plaatsen = Location.all()
-	@skills = Skill.all()
-	
-	@b = ""
-
-	PDF::Reader.open(filename) do |reader|
-		reader.pages.each do |page|
-			@b = @b + page.text.downcase
-		end
-	end
-	
-	ps = "photoshop"
-	
-	@b = @b.scan(/\b#{ps}\b/)
-	
-	erb :pdf
-end
-
-# Handle GET-request (Show the upload form)
 get "/upload" do
-
 	erb :up
 end      
-    
-# Handle POST-request (Receive and save the uploaded file)
+
 post "/upload" do 
 
   File.open('uploads/' + params['myfile'][:filename], "w") do |f|
@@ -669,23 +622,30 @@ post "/upload" do
 	
 	text = CV.getText(filename)
 	
-	p = params[:match]
-	distance = p["di"].to_i
-	dvb = p["dvb"]
-	dvb = "%" + dvb + "%"
-	lw = p["lo"].to_i
-	sw = p["sk"].to_i
-	ew = p["ed"].to_i
+	#Haal alle parameters op
+	p 							= params[:match]
+	distance 		= p["di"].to_i
+	dvb 					= p["dvb"]
+	dvb 					= "%" + dvb + "%"
+	lw 						= p["lo"].to_i
+	sw 						= p["sk"].to_i
+	ew 						= p["ed"].to_i
 	
-	plaats = CV.getCity(text)
+	plaats 				= CV.getCity(text)
 	
-	skills = CV.getSkills(text)
-	count = skills.count	
+	skills 				= CV.getSkills(text)
+	count				= skills.count
+	skills					= Skill.getID(skills)		
 
 	
-	edu = CV.getEducation(text)
-	edu = Education.first(:education => edu[0])
-	edu = edu.level
+	edu 					= CV.getEducation(text)
+	edu 					= Education.first(:education => edu[0])
+	
+	if !edu.nil?
+		edu = edu.level
+	else
+		edu = 10
+	end
 	
 	vacatures = Match.getVacatures(skills, dvb)
 
@@ -704,23 +664,18 @@ post "/upload" do
 end
 
 post "/uploadform" do
-
-	@p = params[:match]
 	
-	l1 = @p["l1"]
-	
-	sk = @p["sk"]
-	sks = @p["sks"]
-	
-	di = @p["di"].to_i
-	lo = @p["lo"].to_i
-	
-	edu = @p["edu"].to_i
-	ed = @p["ed"].to_i
-	
-	dvb = @p["dvb"]
-	dvb = "%" + dvb + "%"
-
+	#Haal alle parameters op
+	p 						= params[:match]	
+	l1 						= p["l1"]	
+	sk						= p["sk"]
+	sks 				= p["sks"]	
+	di 						= p["di"].to_i
+	lo 						= p["lo"].to_i	
+	edu					= p["edu"].to_i
+	ed 					= p["ed"].to_i	
+	dvb 				= p["dvb"]
+	dvb 				= "%" + dvb + "%"
 
 	vacatures = Match.getVac(sk, dvb)
 
