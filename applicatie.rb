@@ -1,12 +1,5 @@
-#!/usr/local/bin/ruby
-# http://www.railstation.eu
-# Peter Dierx - 2013
-
 $LOAD_PATH.unshift File.dirname(__FILE__)
 
-require 'benchmark'
-require 'geocoder'
-require 'haml'
 require 'sinatra'
 require 'sinatra/reloader'
 require 'nokogiri'
@@ -17,8 +10,6 @@ require 'dm-timestamps'
 require 'dm-validations'
 require 'dm-constraints'
 require 'pdf/reader'
-
-include Geocoder::Calculations
 
 # RELOAD
 also_reload "#{ settings.root }/applicatie.rb"
@@ -590,7 +581,6 @@ end
 
 configure :development do
 
-  #DataMapper.setup( :default, "sqlite3://#{ Dir.pwd }/database.sqlite3")
   DataMapper.setup( :default, 'mysql://jobhearted:RAM2675132@mysql.insidion.com/jobhearted')
 
 end
