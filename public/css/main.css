@@ -3,11 +3,12 @@ body {
 }
 
 #container {
-	width:1200px;
+	width:1000px;
 	margin: 0 auto;
 	display: block;
 	overflow: hidden;
 	margin-top: 20px;
+	background-color: white;
 }
 
 #header {
@@ -41,4 +42,9 @@ table {
 table>thead {
 	background-color: black;
 	color: white;
+}
+
+.form_div_50 {
+	width: 400px;
+	display: inline-block;
 }
