@@ -44,22 +44,5 @@
 				</tbody>
 			</table>
 	</div>
-
-			<% @score.each_with_index do |(k, v), i| %>
-			
-			<tr>
-				<td><a href = <%=@link[i]%> ><%= k.title[0..20] + "..." %> </a></td>
-				<td><%= k.plaats.capitalize %></td>
-				<td><%= k.dienstverband %></td>
-				<td><%= v[0].round(2) %></td>
-				<td><%= v[1].round(2) %></td>
-				<td><%= v[2].round(2) %></td>
-				<td><b><%= v[3].round(2) %></b>%</td>
-			</tr>
-			
-			<%end%>
-			</tbody>
-		</table>
-	<%end%>
 </div>
 </body></html>
