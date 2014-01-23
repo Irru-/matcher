@@ -1,0 +1,71 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Jobhearted - Resultaten CV Upload</title>
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/main.css">
+	
+<body>
+
+<div id="container">
+	<div id="results_page">
+	
+		<% if @score.empty? %>
+			<p>Helaas hebben wij geen vacatures kunnen vinden, probeer het nogmaals met andere zoekopdrachten.</p>
+		<% else %>
+	
+			<p>Na het zorgvuldig berekenen welke vacatures het beste bij u passen, kregen wij het volgende resultaat:</p>
+			<table id="result_table" class="table">	
+
+				<thead>
+							<tr>
+								<td><b>Titel</b></td>
+								<td><b>Plaats</b></td>
+								<td><b>Dienstverband</b></td>
+								<td><b>Locatiescore</b></td>
+								<td><b>Educatiescore</b></td>
+								<td><b>Skillscore</b></td>
+								<td><b>Totale Score</b></td>
+							</tr>
+				</thead>
+				<tbody>
+
+
+<<<<<<< HEAD
+				<% @score.each_with_index do |(k, v), i| %>
+				
+				<tr>
+					<td><a href = <%=@link[i]%> ><%= k.title[0..20] + "..." %> </a></td>
+					<td><%= k.plaats.capitalize %></td>
+					<td><%= k.dienstverband %></td>
+					<td><%= v[0].round(2) %></td>
+					<td><%= v[1].round(2) %></td>
+					<td><%= v[2].round(2) %></td>
+					<td><b><%= v[3].round(2) %></b>%</td>
+				</tr>
+				
+				<%end%>
+				</tbody>
+			</table>
+		<%end%>
+	</div>
+=======
+
+			<% @score.each_with_index do |(k, v), i| %>
+			
+			<tr>
+				<td><a href = <%=@link[i]%> ><%= k.title[0..20] + "..." %> </a></td>
+				<td><%= k.plaats.capitalize %></td>
+				<td><%= k.dienstverband %></td>
+				<td><%= v[0].round(2) %></td>
+				<td><%= v[1].round(2) %></td>
+				<td><%= v[2].round(2) %></td>
+				<td><b><%= v[3].round(2) %></b>%</td>
+			</tr>
+			
+			<%end%>
+			</tbody>
+		</table>
+	<%end%>
+>>>>>>> 518b05b996a779dabce2d58fea87b33eff987a47
+</div>
+
+</body></html>
