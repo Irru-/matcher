@@ -176,7 +176,7 @@ class Education
 
 	def self.getGrade(level, edu)
 
-		if edu >= level
+		if edu >= level && level != 0
 			return 100
 		end	
 		
