@@ -1,25 +1,25 @@
 <div class="form_div_50">
 	<form method='POST' action = '/uploadform'>
 		<label for="locatie_1">Locatie: </label>
-		<input type='text' id="locatie_1" name='match[l1]'>
+		<input type='text' id="locatie_1" name='match[l1]'><br/>
 		
 		<label for="skill_1">Skill:</label>
-		<input type='text' id="skill_1" name='match[sk]'>
+		<input type='text' id="skill_1" name='match[sk]'><br/>
 		
 		<label for="afstand_1">Gewenste Maximale afstand:</label>
-		<input type='text' id='afstand_1' onkeypress="return isNumberKeyLoc(event)" name='match[di]'>
+		<input type='text' id='afstand_1' onkeypress="return isNumberKeyLoc(event)" name='match[di]'><br/>
 		<label for="locatie_1">Weging locatie:</label>
-		<input type='text' id='locatie_1' onkeypress="return isNumberKey(event)" name='match[lo]'>
+		<input type='text' id='locatie_1' onkeypress="return isNumberKey(event)" name='match[lo]'><br/>
 		
 		<label for="opleiding_chooser">Uw Hoogst genoten opleiding:</label>
 		<select id="opleiding_chooser" name = 'match[edu]'>
 			<option value="5">MBO</option>
 			<option value="10">HBO</option>
 			<option value="15">WO</option>
-		</select>
+		</select><br/>
 		
 		<label for="weging_edu">Weging van educatie:</label>
-		<input type='text' id='weging_edu' onkeypress="return isNumberKey(event)" name='match[ed]'>
+		<input type='text' id='weging_edu' onkeypress="return isNumberKey(event)" name='match[ed]'><br/>
 		
 		<label for="dvb_chooser">Gewenste Dienstverband:</label>
 		<select id="dvb_chooser" name='match[dvb]'>
@@ -29,7 +29,7 @@
 			<option value="stage">Stage</option>
 			<option value="bijbaan">Bijbaan</option>
 			<option value="freelance">Freelance</option>
-		</select>
+		</select><br/>
 		
 		<input type='submit' value='Match me!'>
 	</form>
