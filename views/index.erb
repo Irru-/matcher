@@ -14,10 +14,6 @@
 			<input type='text' id='afstand_1' onkeypress="return isNumberKeyLoc(event)" name='match[di]'>
 		</div>
 		<div>
-			<label for="locatie_1">Weging locatie:</label>
-			<input type='text' id='locatie_1' onkeypress="return isNumberKey(event)" name='match[lo]'>
-		</div>
-		<div>
 			<label for="opleiding_chooser">Uw Hoogst genoten opleiding:</label>
 			<select id="opleiding_chooser" name = 'match[edu]'>
 				<option value="5">MBO</option>
@@ -26,7 +22,10 @@
 			</select>
 		</div>
 		<div>
-		
+			<label for="locatie_1">Weging locatie:</label>
+			<input type='text' id='locatie_1' onkeypress="return isNumberKey(event)" name='match[lo]'>
+		</div>
+		<div>	
 			<label for="weging_edu">Weging van educatie:</label>
 			<input type='text' id='weging_edu' onkeypress="return isNumberKey(event)" name='match[ed]'>
 		</div>
@@ -52,7 +51,10 @@
 <div class="form_div_50">
 
 	<form method="post" enctype='multipart/form-data')>
-		<div><input type='file' name='myfile'></div>
+		<div>
+			<label for="file">PDF met uw CV:
+			<input id="file" type='file' name='myfile'>
+		</div>
 		<div>
 			<label for="afstand">Maximale afstand: </label>
 			<input type='text' id='afstand' onkeypress="return isNumberKeyLoc(event)" name='match[di]'>

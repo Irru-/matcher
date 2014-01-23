@@ -11,21 +11,24 @@ body {
 	background-color: white;
 	border-radius: 20px;
 	padding: 20px;
-	text-align:center;
 }
 
 #header {
 	height: 140px;
 	width: 930px;
 	padding: 30px;
-	background-color: rgba(0, 0, 255, 0.6);
-	border:2px solid;
+	background-color: white;
 	border-radius:20px;
 }
 
 #logo {
 	font-size: 40px;
 	font-family: Arial black;
+}
+
+#slogan {
+	font-size: 20px;
+	font-family: sans-serif;
 }
 
 #results_page {
