@@ -585,6 +585,12 @@ configure :development do
 
 end
 
+configure :production do
+
+  DataMapper.setup( :default, 'mysql://jobhearted:RAM2675132@mysql.insidion.com/jobhearted')
+
+end
+
 DataMapper.finalize
 
 DataMapper.auto_upgrade!
