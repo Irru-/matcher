@@ -606,7 +606,11 @@ end
 
 get "/upload" do
 	erb :up
-end      
+end
+
+get '/dashboard_mitchell' do
+  erb :dashboard
+end
 
 post "/upload" do 
 
