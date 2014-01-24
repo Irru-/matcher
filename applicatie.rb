@@ -606,7 +606,13 @@ end
 
 get "/upload" do
 	erb :up
-end      
+end
+
+get "/dashboard_mitchell" do
+  @damn = repository(:default).adapter.select("SELECT COUNT(vacature_id) as count, skills.skill FROM vacatures_skills JOIN skills ON vacatures_skills.skill_id=skills.id GROUP BY vacatures_skills.skill_id ORDER BY count DESC LIMIT 50")
+
+  erb :dashboard_mitchell
+end
 
 post "/upload" do 
 

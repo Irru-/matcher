@@ -1,0 +1,24 @@
+<table>
+  <thead>
+    <tr>
+      <td>Plaats</td>
+      <td>Aantal</td>
+      <td>Skill</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% plaats = 1 %>
+    <% @damn.each do |item| %>
+    <tr>
+      <td><%= plaats.to_s %></td>
+      <td><%= item.count %></td>
+      <td><%= item.skill %></td>
+    </tr>
+  <% plaats = plaats + 1
+     end %>
+
+  </tbody>
+
+</table>
+
+
