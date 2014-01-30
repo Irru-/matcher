@@ -593,7 +593,7 @@ end
 
 DataMapper.finalize
 
-DataMapper.auto_upgrade!
+#DataMapper.auto_upgrade!
 
 
 get '/' do
@@ -609,8 +609,8 @@ get "/upload" do
 end
 
 get "/dashboard_mitchell" do
-  @damn = repository(:default).adapter.select("SELECT COUNT(vacature_id) as count, skills.skill FROM vacatures_skills JOIN skills ON vacatures_skills.skill_id=skills.id GROUP BY vacatures_skills.skill_id ORDER BY count DESC LIMIT 50")
-
+  @skillstats = repository(:default).adapter.select("SELECT COUNT(vacature_id) as count, skills.skill FROM vacatures_skills JOIN skills ON vacatures_skills.skill_id=skills.id GROUP BY vacatures_skills.skill_id ORDER BY count DESC LIMIT 50")
+  @educationstats = repository(:default).adapter.select("SELECT COUNT(vacature_id) as count, educations.education FROM vacatures_educations JOIN educations ON vacatures_educations.education_id=educations.id GROUP BY vacatures_educations.education_id ORDER BY count DESC LIMIT 50");
   erb :dashboard_mitchell
 end
 

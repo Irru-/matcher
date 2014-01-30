@@ -1,24 +1,49 @@
-<table>
-  <thead>
+<div class="form_div_50">
+  <table>
+    <thead>
     <tr>
       <td>Plaats</td>
       <td>Aantal</td>
       <td>Skill</td>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
     <% plaats = 1 %>
-    <% @damn.each do |item| %>
+    <% @skillstats.each do |item| %>
+        <tr>
+          <td><%= plaats.to_s %></td>
+          <td><%= item.count %></td>
+          <td><%= item.skill %></td>
+        </tr>
+    <% plaats = plaats + 1 %>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+<div class="form_div_50">
+  <table>
+    <thead>
     <tr>
-      <td><%= plaats.to_s %></td>
-      <td><%= item.count %></td>
-      <td><%= item.skill %></td>
+      <td>Plaats</td>
+      <td>Aantal</td>
+      <td>Education</td>
     </tr>
-  <% plaats = plaats + 1
-     end %>
+    </thead>
+    <tbody>
+    <% plaats = 1 %>
+    <% @educationstats.each do |item| %>
+        <tr>
+          <td><%= plaats.to_s %></td>
+          <td><%= item.count %></td>
+          <td><%= item.education %></td>
+        </tr>
+        <% plaats = plaats + 1 %>
+    <% end %>
+    </tbody>
+  </table>
+</div>
 
-  </tbody>
-
-</table>
 
 
